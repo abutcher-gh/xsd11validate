@@ -6,10 +6,17 @@ I couldn't find a convenient open-source command-line tool to validate XML files
 
 ## Usage
 
+Standalone binary package on PATH
 ```sh
   xsd11validate schema.xsd [file.xml...]
 ```
-It returns 0 with no output if there are no errors, or the error count with output to `stderr` on failure.
+or with existing Java installation (jre>=9 or jre=8 respectively)
+```sh
+  java -jar xsd11validate.jar schema.xsd [file.xml...]
+  java -jar xsd11validate.jre8.jar schema.xsd [file.xml...]
+```
+
+The program returns 0 with no output if there are no errors, or the error count with output to `stderr` on failure.
 
 ## Download
 
