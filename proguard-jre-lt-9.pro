@@ -1,0 +1,2 @@
+-libraryjars <java.home>/lib/rt.jar
+-include proguard.pro

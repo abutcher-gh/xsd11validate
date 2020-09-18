@@ -1,0 +1,51 @@
+<project>
+
+  <target name="clean">
+    <delete dir="${out.dir}" />
+  </target>
+
+  <target name="compile">
+    <mkdir dir="${out.dir}/classes" />
+    <javac source='${source.compat}' srcdir="src" destdir="${out.dir}/classes" includeantruntime="false">
+      <exclude name="${source.exclude}" />
+    </javac>
+  </target>
+
+  <target name="fatjar" depends="compile">
+    <jar destfile="${out.dir}/${out.name}.fat.jar" basedir="${out.dir}/classes">
+      <manifest>
+        <attribute name="Main-Class" value="uk.co.jessamine.xmltools.XSD11Validate" />
+      </manifest>
+      <zipgroupfileset dir="lib" includes="${lib.filter}" />
+    </jar>
+  </target>
+
+  <target name="jar" depends="fatjar">
+    <java jar="build/proguard-base-6.1.1.jar" fork="true" failonerror="true">
+      <arg value="-injars" /><arg value="${out.dir}/${out.name}.fat.jar" />
+      <arg value="-outjars" /><arg value="${out.dir}/${out.name}.jar" />
+      <arg value="@proguard-${proguard.suffix}.pro" />
+    </java>
+  </target>
+
+  <target name="standalone" depends="fatjar">
+    <delete dir="${out.dir}/with-jre" />
+    <link
+      destDir="${out.dir}/with-jre"
+      modulePath="${out.dir}/${out.name}.fat.jar"
+      modules="main"
+      compress="2"
+      debug="false"
+      includeHeaders="false"
+      includeManPages="false"
+      launchers="${out.name}=main/uk.co.jessamine.xmltools.XSD11Validate" />
+    <replaceregexp
+      file="${out.dir}/with-jre/bin/${out.name}"
+      match="JLINK_VM_OPTIONS="
+      preserveLastModified="true"
+      replace='JLINK_VM_OPTIONS="--add-exports main/org.apache.xerces.jaxp.validation=java.xml --add-exports main/org.apache.xerces.dom=java.xml"' />
+    <chmod perm="+x"
+      file="${out.dir}/with-jre/bin/${out.name}" />
+  </target>
+
+</project>

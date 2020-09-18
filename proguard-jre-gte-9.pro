@@ -1,0 +1,2 @@
+-libraryjars <java.home>/jmods/java.base.jmod:<java.home>/jmods/java.xml.jmod
+-include proguard.pro

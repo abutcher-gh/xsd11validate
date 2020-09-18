@@ -1,0 +1,9 @@
+<project>
+  <property name="out.dir" value="out.jre8" />
+  <property name="out.name" value="xsd11validate.jre8" />
+  <property name="lib.filter" value="**/*.jar" />
+  <property name="source.compat" value="1.8" />
+  <property name="source.exclude" value="**/module-info.java" />
+  <property name="proguard.suffix" value="jre-lt-9" />
+  <import file="build.common.xml" />
+</project>

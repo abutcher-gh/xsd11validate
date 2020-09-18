@@ -1,0 +1,8 @@
+<project>
+  <property name="out.dir" value="out" />
+  <property name="out.name" value="xsd11validate" />
+  <property name="lib.filter" value="*.jar" />
+  <property name="source.compat" value="1.9" />
+  <property name="proguard.suffix" value="jre-gte-9" />
+  <import file="build.common.xml" />
+</project>
