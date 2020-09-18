@@ -1,6 +1,5 @@
 package uk.co.jessamine.xmltools;
 
-import java.lang.reflect.*;
 import java.io.File;
 
 import javax.xml.transform.Source;
@@ -17,15 +16,16 @@ public class XSD11Validate {
       System.err.println("Usage: xsd11validate schema.xsd [file.xml...]");
       System.exit(1);
     }
+
+    // Force XSD v1.1 for the benefit of the standalone jlink'd build which
+    // doesn't have META-INF/services/javax.xml.validation.SchemaFactory.
+    //
     System.setProperty("javax.xml.validation.SchemaFactory:http://www.w3.org/XML/XMLSchema/v1.1",
-           "org.apache.xerces.jaxp.validation.XMLSchema11Factory");
+        "org.apache.xerces.jaxp.validation.XMLSchema11Factory");
 
     int errors = 0;
     String xsdFileName = args[0];
     try {
-      Class<?> c = Class.forName("org.apache.xerces.jaxp.validation.XMLSchema11Factory");
-      Constructor<?> ctor = c.getConstructor();
-      //SchemaFactory factory = (SchemaFactory) ctor.newInstance();
       SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/XML/XMLSchema/v1.1");
       Schema schema = factory.newSchema(new File(xsdFileName));
       Validator validator = schema.newValidator();
